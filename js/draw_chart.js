@@ -1900,7 +1900,7 @@ function drawStats() {
 
     var improvement_array=new Array();
     for(var i=0;i<4;i++) {
-        improvement_array.push(best_array[global_index][7+i].latency / best_array[global_index][1]);
+        improvement_array.push(((1/best_array[global_index][1])-(1/best_array[global_index][7+i].latency))/(1/best_array[global_index][7+i].latency)*100);
     }
     var hybrid_legend={x: [null],
         y: [null],
@@ -2063,7 +2063,7 @@ function drawStats() {
     layout_2.xaxis.title=" budget ($)";
     Plotly.newPlot('stat_graph_6', data6, layout_2, {displayModeBar: false});
 
-    layout.yaxis.title=" performance<br>improvement (x times)"
+    layout.yaxis.title=" performance<br>improvement (%)"
     layout.xaxis.title="Existing storage engines";
     Plotly.newPlot('stat_graph_7', data7, layout, {displayModeBar: false});
 
