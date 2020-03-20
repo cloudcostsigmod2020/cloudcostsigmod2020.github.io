@@ -1901,7 +1901,7 @@ function drawStats() {
     var improvement_array=new Array();
     console.log(best_array[global_index]);
     for(var i=0;i<4;i++) {
-        improvement_array.push(((1/best_array[global_index][1])-(1/best_array[global_index][7+i].latency))/(1/best_array[global_index][7+i].latency)*100);
+        improvement_array.push((best_array[global_index][7+i].latency-best_array[global_index][1])/(best_array[global_index][7+i].latency)*100);
     }
     var hybrid_legend={x: [null],
         y: [null],
@@ -1994,7 +1994,7 @@ function drawStats() {
     }
 
     var trace7 = {
-        x: ['RocksDB', 'Wiredtiger', 'Faster-A','Faster-H'],
+        x: ['RocksDB', 'Wiredtiger', 'Faster-H','Faster-A'],
         y: improvement_array,
         width: [0.3,0.3,0.3,0.3],
         type: 'bar',
@@ -2424,12 +2424,12 @@ function outputParameters(Variables, id, l) {
         }else{
             outputText(result_div,"Processor",8);
             outputText(result_div,"On-disk",150);
-            outputText(result_div,"Compression",226);
-            outputText(result_div,"Cloud",280);
-            outputText(result_div,"Cost",330);
-            outputText(result_div,"Latency",382);
-            outputText(result_div,"Throughput",427);
-            outputText(result_div,"Detailed Storage Engine Design Description",473);
+            outputText(result_div,"Cloud",226);
+            outputText(result_div,"Cost",280);
+            outputText(result_div,"Latency",330);
+            outputText(result_div,"Throughput",382);
+            //outputText(result_div,"Compression",427);
+            outputText(result_div,"Detailed Storage Engine Design Description",424);
         }
     }
 
@@ -2442,21 +2442,21 @@ function outputParameters(Variables, id, l) {
         div_tmp.setAttribute("class", "tooltip1");
         var span_tmp = document.createElement("span");
         span_tmp.setAttribute("class", "tooltiptext");
-        span_tmp.innerHTML = "<i>Growth Factor (T)=" + Variables.T + ", Hot Merge Threshold (K)=" + Variables.K + "<br>Cold Merge Threshold (Z)=" + Variables.Z+"</i>";
+        span_tmp.innerHTML = "<i>Growth Factor (T)=" + Variables.T + ", Hot Merge Threshold (K)=" + Variables.K + "<br>Cold Merge Threshold (Z)=" + Variables.Z+", Compression ="+Variables.compression_name+"</i> ";
         div_tmp.appendChild(span_tmp);
 
     }
     result_div.appendChild(div_tmp);
     if(using_compression){
-        outputParameter(result_div, Variables.compression_name, "./images/compression.png")
+        //outputParameter(result_div, Variables.compression_name, "./images/compression.png")
     }
     outputParameter(result_div,cloud_array[Variables.cloud_provider],"./images/cloud.png");
-    outputParameter(result_div,"$"+parseFloat(Variables.cost).toFixed(1),"./images/dollar.png");
+    outputParameter(result_div,"$"+parseFloat(Variables.cost).toFixed(1),"./images/dollar.png", true);
     if(Variables.L==0){
-        outputParameter(result_div,"No Latency","./images/performance.png");
+        outputParameter(result_div,"No Latency","./images/performance.png", true);
         outputParameter(result_div,"","./images/throughput.png");
     }else {
-        outputParameter(result_div, fixTime(Variables.latency), "./images/performance.png");
+        outputParameter(result_div, fixTime(Variables.latency), "./images/performance.png", true);
         outputParameter(result_div, parseInt(Variables.query_count / (Variables.latency * 24 * 60 * 60)) + " queries/s", "./images/throughput.png");
     }
 
@@ -2491,7 +2491,7 @@ function outputText(result_div,text,top){
 function outputNote(Variables, id){
     var result_div = document.getElementById(id);
     var text = document.createElement("div");
-    if(!using_compression)
+    if(1)
         text.setAttribute("style", "width:90%; position:absolute; top:462px; font-size:12px");
     else
         text.setAttribute("style", "width:90%; position:absolute; top:511px; font-size:12px");
@@ -2501,7 +2501,7 @@ function outputNote(Variables, id){
     var popup_id=id+"_popup"
     div_tmp.setAttribute("class","download_icon");
     div_tmp.setAttribute("id",popup_id);
-    if(!using_compression)
+    if(1)
         div_tmp.setAttribute("style","position:absolute; top:457px; left:122px")
     else
         div_tmp.setAttribute("style","position:absolute; top:506px; left:122px")
@@ -2732,7 +2732,7 @@ function createExplanationPopup(Variables){
     popup.document.body.append(result_div);
 }
 
-function outputParameter(result_div,value,text){
+function outputParameter(result_div,value,text,highlight=false){
     var div_tmp = document.createElement("div");
     div_tmp.setAttribute("class", "input-group");
     var span_tmp = document.createElement("span");
@@ -2744,13 +2744,19 @@ function outputParameter(result_div,value,text){
     img_tmp.setAttribute("class","img-responsive img-centered");
     img_tmp.setAttribute("style", "width:30px")
     icon_tmp.appendChild(img_tmp);
-    icon_tmp.setAttribute("style","width:44px; height:44px; position:absolute; bottom: -3px; left:-3px; background-color:white; border-radius:30px; border: 2px solid black; padding:7px; z-index:10")
+    if(highlight)
+        icon_tmp.setAttribute("style","width:44px; height:44px; position:absolute; bottom: -3px; left:-3px; background-color:white; border-radius:30px; border: 2px solid #66AADD; padding:7px; z-index:10")
+    else
+        icon_tmp.setAttribute("style","width:44px; height:44px; position:absolute; bottom: -3px; left:-3px; background-color:white; border-radius:30px; border: 2px solid black; padding:7px; z-index:10")
     div_tmp.appendChild(icon_tmp);
     div_tmp.appendChild(span_tmp);
     var input_tmp = document.createElement("input");
     input_tmp.setAttribute("class","form-control")
     input_tmp.setAttribute("readonly","true");
-    input_tmp.setAttribute("style","text-align:right");
+    if(highlight)
+        input_tmp.setAttribute("style","text-align:right; box-shadow: 0 0 5px #66AADD;");
+    else
+        input_tmp.setAttribute("style","text-align:right");
     if(text=="VM type")
         input_tmp.setAttribute("style","text-align:right; font-size:10px");
     input_tmp.value=value;
