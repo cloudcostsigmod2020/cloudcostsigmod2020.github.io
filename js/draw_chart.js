@@ -1899,6 +1899,7 @@ function drawStats() {
     var query_IO = [best_array[global_index][5].read_cost, best_array[global_index][5].update_cost];
 
     var improvement_array=new Array();
+    console.log(best_array[global_index]);
     for(var i=0;i<4;i++) {
         improvement_array.push(((1/best_array[global_index][1])-(1/best_array[global_index][7+i].latency))/(1/best_array[global_index][7+i].latency)*100);
     }
@@ -2195,6 +2196,8 @@ function drawDesigns(best_array, cost) {
             removeAllChildren(document.getElementById("cost_result_p5"));
         }
 
+        var flag=0;
+
         if( cost_result_text[0] != "Cost is too little"){
 
             //document.getElementById("cost_result_p6").setAttribute("style","position:relative;top:0px");
@@ -2203,9 +2206,11 @@ function drawDesigns(best_array, cost) {
                 if((cost-best_array[design_1_index][7].cost)>(best_array[design_1_index+1][7].cost-cost)) {
                     outputParameters(best_array[design_1_index+1][7], "cost_result_p7", l2);
                     outputNote(best_array[design_1_index][7], "cost_result_p7");
+                    flag=1;
                 }else{
                     outputParameters(best_array[design_1_index][7], "cost_result_p7", l1);
                     outputNote(best_array[design_1_index+1][7], "cost_result_p7");
+
                 }
             }else{
                 document.getElementById("cost_result_p6").innerHTML = "<b>RocksDB: Not Enough Memory<br><br></b>";
@@ -2240,7 +2245,7 @@ function drawDesigns(best_array, cost) {
             }
         }
     }
-    global_index=design_1_index;
+    global_index=design_1_index+flag;
 
     var chart_array=cutArray(best_array,chart_start_index,chart_end_index);
     return chart_array;
