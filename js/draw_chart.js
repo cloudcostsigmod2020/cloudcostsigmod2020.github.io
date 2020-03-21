@@ -2451,13 +2451,13 @@ function outputParameters(Variables, id, l) {
         //outputParameter(result_div, Variables.compression_name, "./images/compression.png")
     }
     outputParameter(result_div,cloud_array[Variables.cloud_provider],"./images/cloud.png");
-    outputParameter(result_div,"$"+parseFloat(Variables.cost).toFixed(1),"./images/dollar.png", true);
+    outputParameter(result_div,"$"+parseFloat(Variables.cost).toFixed(1),"./images/dollar.png");
     if(Variables.L==0){
         outputParameter(result_div,"No Latency","./images/performance.png", true);
-        outputParameter(result_div,"","./images/throughput.png");
+        outputParameter(result_div,"","./images/throughput.png", true);
     }else {
         outputParameter(result_div, fixTime(Variables.latency), "./images/performance.png", true);
-        outputParameter(result_div, parseInt(Variables.query_count / (Variables.latency * 24 * 60 * 60)) + " queries/s", "./images/throughput.png");
+        outputParameter(result_div, parseInt(Variables.query_count / (Variables.latency * 24 * 60 * 60)) + " queries/s", "./images/throughput.png", true);
     }
 
     // outputParameter(result_div,Variables.T,"Growth Factor (T)");
@@ -2745,7 +2745,7 @@ function outputParameter(result_div,value,text,highlight=false){
     img_tmp.setAttribute("style", "width:30px")
     icon_tmp.appendChild(img_tmp);
     if(highlight)
-        icon_tmp.setAttribute("style","width:44px; height:44px; position:absolute; bottom: -3px; left:-3px; background-color:white; border-radius:30px; border: 2px solid #66AADD; padding:7px; z-index:10")
+        icon_tmp.setAttribute("style","width:44px; height:44px; position:absolute; bottom: -3px; left:-3px; background-color:white; border-radius:30px; border: 2px solid #66DDAA; padding:7px; z-index:10")
     else
         icon_tmp.setAttribute("style","width:44px; height:44px; position:absolute; bottom: -3px; left:-3px; background-color:white; border-radius:30px; border: 2px solid black; padding:7px; z-index:10")
     div_tmp.appendChild(icon_tmp);
@@ -2754,7 +2754,7 @@ function outputParameter(result_div,value,text,highlight=false){
     input_tmp.setAttribute("class","form-control")
     input_tmp.setAttribute("readonly","true");
     if(highlight)
-        input_tmp.setAttribute("style","text-align:right; box-shadow: 0 0 5px #66AADD;");
+        input_tmp.setAttribute("style","text-align:right; box-shadow: 0 0 5px #66DDAA;");
     else
         input_tmp.setAttribute("style","text-align:right");
     if(text=="VM type")
