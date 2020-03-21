@@ -2745,7 +2745,7 @@ function outputParameter(result_div,value,text,highlight=false){
     img_tmp.setAttribute("style", "width:30px")
     icon_tmp.appendChild(img_tmp);
     if(highlight)
-        icon_tmp.setAttribute("style","width:44px; height:44px; position:absolute; bottom: -3px; left:-3px; background-color:white; border-radius:30px; border: 2px solid #66DDAA; padding:7px; z-index:10")
+        icon_tmp.setAttribute("style","width:44px; height:44px; position:absolute; bottom: -3px; left:-3px; background-color:white; border-radius:30px; border: 2px solid #229966; padding:7px; z-index:10")
     else
         icon_tmp.setAttribute("style","width:44px; height:44px; position:absolute; bottom: -3px; left:-3px; background-color:white; border-radius:30px; border: 2px solid black; padding:7px; z-index:10")
     div_tmp.appendChild(icon_tmp);
@@ -2754,7 +2754,7 @@ function outputParameter(result_div,value,text,highlight=false){
     input_tmp.setAttribute("class","form-control")
     input_tmp.setAttribute("readonly","true");
     if(highlight)
-        input_tmp.setAttribute("style","text-align:right; box-shadow: 0 0 5px #66DDAA;");
+        input_tmp.setAttribute("style","text-align:right; box-shadow: 0 0 5px #229966;");
     else
         input_tmp.setAttribute("style","text-align:right");
     if(text=="VM type")
